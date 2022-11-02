@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20220531
+FROM nvidia/cuda:11.0.3-base-ubuntu20.04
 LABEL authors="Selenium <selenium-developers@googlegroups.com>"
 
 #================================================
