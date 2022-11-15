@@ -1,10 +1,10 @@
-NAME := $(or $(NAME),$(NAME),selenium)
+NAME := akasparevych
 CURRENT_DATE := $(shell date '+%Y%m%d')
 BUILD_DATE := $(or $(BUILD_DATE),$(BUILD_DATE),$(CURRENT_DATE))
 VERSION := $(or $(VERSION),$(VERSION),4.1.0)
 TAG_VERSION := $(VERSION)-$(BUILD_DATE)
 NAMESPACE := $(or $(NAMESPACE),$(NAMESPACE),$(NAME))
-AUTHORS := $(or $(AUTHORS),$(AUTHORS),SeleniumHQ)
+AUTHORS := $(or $(AUTHORS),$(AUTHORS),SeleniumHQ/akasparevych)
 PUSH_IMAGE := $(or $(PUSH_IMAGE),$(PUSH_IMAGE),false)
 FROM_IMAGE_ARGS := --build-arg NAMESPACE=$(NAMESPACE) --build-arg VERSION=$(TAG_VERSION) --build-arg AUTHORS=$(AUTHORS)
 BUILD_ARGS := $(BUILD_ARGS)
@@ -102,6 +102,9 @@ standalone_firefox_beta: firefox_beta
 
 standalone_chrome: chrome
 	cd ./Standalone && docker build $(BUILD_ARGS) $(FROM_IMAGE_ARGS) --build-arg BASE=node-chrome -t $(NAME)/standalone-chrome:$(TAG_VERSION) .
+
+standalone_chrome_gpu: chrome
+	cd ./Standalone && docker build $(BUILD_ARGS) $(FROM_IMAGE_ARGS) --build-arg BASE=node-chrome -t $(NAME)/docker-selenium-gpu:$(TAG_VERSION) .
 
 standalone_chrome_dev: chrome_dev
 	cd ./Standalone && docker build $(BUILD_ARGS) --build-arg NAMESPACE=$(NAME) --build-arg VERSION=dev --build-arg BASE=node-chrome -t $(NAME)/standalone-chrome:dev .

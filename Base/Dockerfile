@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.0.3-base-ubuntu20.04
+FROM nvidia/opengl:1.2-glvnd-runtime-ubuntu20.04
 LABEL authors="Selenium <selenium-developers@googlegroups.com>"
 
 #================================================
