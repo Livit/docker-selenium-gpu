@@ -92,20 +92,7 @@ RUN apt-get -qqy update \
 ########################################
 # noVNC exposes VNC through a web page #
 ########################################
-ENV NOVNC_VERSION="1.4.0" \
-    WEBSOCKIFY_VERSION="0.11.0"
-RUN  wget -nv -O noVNC.zip \
-       "https://github.com/novnc/noVNC/archive/refs/tags/v${NOVNC_VERSION}.zip" \
-  && unzip -x noVNC.zip \
-  && mv noVNC-${NOVNC_VERSION} /opt/bin/noVNC \
-  && cp /opt/bin/noVNC/vnc.html /opt/bin/noVNC/index.html \
-  && rm noVNC.zip \
-  && wget -nv -O websockify.zip \
-      "https://github.com/novnc/websockify/archive/refs/tags/v${WEBSOCKIFY_VERSION}.zip" \
-  && unzip -x websockify.zip \
-  && rm websockify.zip \
-  && rm -rf websockify-${WEBSOCKIFY_VERSION}/tests \
-  && mv websockify-${WEBSOCKIFY_VERSION} /opt/bin/noVNC/utils/websockify
+#Removed noVNC
 
 #=========================================================================================================================================
 # Run this command for executable file permissions for /dev/shm when this is a "child" container running in Docker Desktop and WSL2 distro

@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20220531
+FROM nvidia/opengl:1.2-glvnd-runtime-ubuntu20.04
 LABEL authors="Selenium <selenium-developers@googlegroups.com>"
 
 #================================================
