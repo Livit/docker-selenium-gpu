@@ -1,0 +1,62 @@
+---
+kind: pipeline
+type: docker
+name: selenium-gpu-docker-build
+
+trigger:
+  event:
+    - tag
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  disable: true
+
+steps:
+  - name: git-clone
+    image: plugins/git
+    settings:
+      recursive: true
+      tags: true
+
+  - name: build-and-push
+    image: say5/docker-aws-cli:0.0.4
+    commands:
+      - chmod -R 755 ci-scripts/
+      - $(aws ecr get-login --no-include-email --region $$ECR_REGION)
+      - export IMAGE_REPO=$$AWS_ACCOUNT_ID.dkr.ecr.$$ECR_REGION.amazonaws.com
+      - ./ci-scripts/wait.sh dind 2375
+      - export VERSION=${DRONE_TAG}
+      - apk --update --no-cache add make && make standalone_chrome
+      - >
+        docker tag ${NAME}/standalone-chrome:${DRONE_TAG} $${IMAGE_REPO}/${NAME}/standalone-chrome:${DRONE_TAG} ;
+        docker tag ${NAME}/standalone-chrome:${DRONE_TAG} $${IMAGE_REPO}/${NAME}/standalone-chrome:latest ;
+        docker push $${IMAGE_REPO}/${NAME}/standalone-chrome:${DRONE_TAG} ;
+        docker push $${IMAGE_REPO}/${NAME}/standalone-chrome:latest ;
+    environment:
+      AWS_ACCOUNT_ID:
+        from_secret: aws_account_id
+      AWS_ACCESS_KEY_ID:
+        from_secret: ecr_access_key
+      ECR_REGION:
+        from_secret: ecr_region
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: ecr_secret_key
+      NUGET_REGISTRY_TOKEN:
+        from_secret: cloudsmith_token
+      DOCKER_HOST: tcp://dind:2375/
+      NAME: selenium-gpu
+      
+services:
+  - name: dind
+    image: docker:20.10-dind
+    privileged: true
+    commands:
+      - mkdir /root/.docker
+      - echo $${CONFIG_JSON} > /root/.docker/config.json
+      - /bin/sh -c "DOCKER_TLS_CERTDIR='' dockerd-entrypoint.sh --storage-driver=overlay2 --tls=false --experimental"
+    environment:
+      CONFIG_JSON:
+        from_secret: docker_config
