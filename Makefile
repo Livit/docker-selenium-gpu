@@ -1,4 +1,4 @@
-NAME := 'selenium-gpu'
+NAME := $(or $(NAME),$(NAME),selenium)
 CURRENT_DATE := $(shell date '+%Y%m%d')
 BUILD_DATE := $(or $(BUILD_DATE),$(BUILD_DATE),$(CURRENT_DATE))
 VERSION := $(or $(VERSION),$(VERSION),4.7.0)
