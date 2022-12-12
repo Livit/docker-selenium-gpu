@@ -29,8 +29,8 @@ steps:
       - export VERSION=${DRONE_TAG}
       - apk --update --no-cache add make && make standalone_chrome
       - >
-        docker tag $${NAME}/standalone-chrome:${DRONE_TAG} $${IMAGE_REPO}/$${NAME}:standalone-chrome-${DRONE_TAG} ;
-        docker tag $${NAME}/standalone-chrome:${DRONE_TAG} $${IMAGE_REPO}/$${NAME}:standalone-chrome-latest ;
+        docker tag $${NAME}:standalone-chrome-${DRONE_TAG} $${IMAGE_REPO}/$${NAME}:standalone-chrome-${DRONE_TAG} ;
+        docker tag $${NAME}:standalone-chrome-${DRONE_TAG} $${IMAGE_REPO}/$${NAME}:standalone-chrome-latest ;
         docker push $${IMAGE_REPO}/$${NAME}:standalone-chrome-${DRONE_TAG} ;
         docker push $${IMAGE_REPO}/$${NAME}:standalone-chrome-latest ;
     environment:
