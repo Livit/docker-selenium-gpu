@@ -26,6 +26,7 @@ steps:
     commands:
       - $(aws ecr get-login --no-include-email --region $$ECR_REGION)
       - export IMAGE_REPO=$$AWS_ACCOUNT_ID.dkr.ecr.$$ECR_REGION.amazonaws.com
+      - echo $IMAGE_REPO
       - export VERSION=${DRONE_TAG}
       - apk --update --no-cache add make && make standalone_chrome
       - >
@@ -34,12 +35,10 @@ steps:
         docker push $${IMAGE_REPO}/$${NAME}:standalone-chrome-${DRONE_TAG} ;
         docker push $${IMAGE_REPO}/$${NAME}:standalone-chrome-latest ;
     environment:
-      AWS_ACCOUNT_ID:
-        from_secret: aws_account_id
+      AWS_ACCOUNT_ID: 097333090623
       AWS_ACCESS_KEY_ID:
         from_secret: ecr_access_key
-      ECR_REGION:
-        from_secret: ecr_region
+      ECR_REGION: us-east-1
       AWS_SECRET_ACCESS_KEY:
         from_secret: ecr_secret_key
       NUGET_REGISTRY_TOKEN:
