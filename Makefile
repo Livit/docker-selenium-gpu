@@ -1,7 +1,7 @@
 NAME := $(or $(NAME),$(NAME),selenium)
 CURRENT_DATE := $(shell date '+%Y%m%d')
 BUILD_DATE := $(or $(BUILD_DATE),$(BUILD_DATE),$(CURRENT_DATE))
-VERSION := $(or $(VERSION),$(VERSION),4.7.0)
+VERSION := $(or $(VERSION),$(VERSION),4.8.1)
 TAG_VERSION := $(or $(DRONE_TAG),$(DRONE_TAG),$(VERSION)-$(BUILD_DATE))
 NAMESPACE := $(or $(NAMESPACE),$(NAMESPACE),$(NAME))
 AUTHORS := $(or $(AUTHORS),$(AUTHORS),SeleniumHQ/Labster)
@@ -102,6 +102,9 @@ standalone_firefox_beta: firefox_beta
 
 standalone_chrome: chrome
 	cd ./Standalone && docker build $(BUILD_ARGS) $(FROM_IMAGE_ARGS) --build-arg BASE=node-chrome -t $(NAME):standalone-chrome-$(TAG_VERSION) .
+
+standalone_chrome_107: chrome
+	cd ./Standalone && docker build $(BUILD_ARGS) $(FROM_IMAGE_ARGS) --build-arg BASE=node-chrome --build-arg CHROME_VERSION=107.0.5304.62 -t $(NAME):standalone-chrome-107-$(TAG_VERSION) .
 
 standalone_chrome_dev: chrome_dev
 	cd ./Standalone && docker build $(BUILD_ARGS) --build-arg NAMESPACE=$(NAME) --build-arg VERSION=dev --build-arg BASE=node-chrome -t $(NAME)/standalone-chrome:dev .
