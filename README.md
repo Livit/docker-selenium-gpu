@@ -1,3 +1,11 @@
+# This is a fork to enable GPU support
+Note from Andrii:
+I created this to enable running Playhistory tests ([here](https://github.com/Livit/Livit.Learn.Selenium/blob/1316821ad1fd4a6c6c7de70c47c93f319747e9a2/.drone/drone.star#L191))
+At the time of creation of this repo, there were some problems with publishing the Docker impage to our private hub on Amazon, so I published it to my own repo on docker hub
+https://hub.docker.com/repository/docker/akasparevych/docker-selenium-gpu/general
+For the future maintainers it would be benefitial to set up the pipeline to actually publish the image to Labster's ECR on AWS.
+
+
 ![Build & test](https://github.com/SeleniumHQ/docker-selenium/workflows/Build%20&%20test/badge.svg?branch=trunk)
 ![Deployments](https://github.com/SeleniumHQ/docker-selenium/workflows/Deploys/badge.svg)
 
